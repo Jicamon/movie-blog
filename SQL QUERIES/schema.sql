@@ -1,0 +1,180 @@
+-- TABLE CREATION
+
+CREATE TABLE  Genres (
+    "genreId" SERIAL NOT NULL PRIMARY KEY ,
+    "description" VARCHAR(50) NOT NULL
+);
+  
+CREATE TABLE Actors (
+    "actorId" SERIAL NOT NULL PRIMARY KEY ,
+    "fullName" VARCHAR(50) NOT NULL,
+    "gender" CHAR NOT NULL
+);
+
+CREATE TABLE Roles (
+    "roleId" SERIAL NOT NULL PRIMARY KEY ,
+    "description" VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Users (
+    "userId" SERIAL NOT NULL PRIMARY KEY ,
+    "name" VARCHAR(40) NOT NULL,
+    "lastName" VARCHAR(40) NOT NULL,
+    "birthday" TIMESTAMP NOT NULL,
+    "phone" VARCHAR(15) NOT NULL,
+    "mail" VARCHAR(40) NULL
+);
+
+CREATE TABLE Ratings (
+    "ratingId" SERIAL NOT NULL PRIMARY KEY ,
+    "abbreviation" VARCHAR(10) NOT NULL,
+    "description" VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE Credentials (
+    "userId" INT NOT NULL,
+    "userName" VARCHAR(40) NOT NULL,
+    "password" VARCHAR(20) NOT NULL,
+    "roleId" INT NOT NULL
+);
+
+CREATE TABLE Movies (
+    "movieId" SERIAL NOT NULL PRIMARY KEY ,
+    "title" VARCHAR(50) NOT NULL,
+    "duration" TIME NOT NULL,
+    "genreId" INT NOT NULL,
+    "ratingId" INT NOT NULL
+);
+
+CREATE TABLE Posts (
+    "postId" SERIAL NOT NULL PRIMARY KEY,
+    "userId" INT NOT NULL,
+    "title" VARCHAR(50) NOT NULL,
+    "description" VARCHAR(3000) NOT NULL,
+    "creationDate" TIMESTAMP NOT NULL,
+    "likeCount" INT NOT NULL,
+    "dislikeCount" INT NOT NULL,
+    "movieId" INT NOT NULL
+);
+
+CREATE TABLE Comments (
+    "commentId" SERIAL NOT NULL PRIMARY KEY,
+    "postId" INT NOT NULL,
+    "userId" INT NOT NULL,
+    "description" VARCHAR(300),
+    "creationDate" TIMESTAMP NOT NULL,
+    "likeCount" INT NOT NULL,
+    "dislikeCount" INT NOT NULL
+);
+
+CREATE TABLE Movies_Genres (
+    "movieId" INT NOT NULL,
+    "genreId" INT NOT NULL
+);
+
+CREATE TABLE Movies_Actors (
+    "movieId" INT NOT NULL,
+    "actorId" INT NOT NULL
+);
+
+-- ALTERS TABLE FOR CONSTRAINTS
+
+-- CREDENTIALS
+
+ALTER TABLE Credentials
+ADD CONSTRAINT "FK_Credentials_Roles"
+FOREIGN KEY ("roleId")
+REFERENCES Roles ("roleId")
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+
+ALTER TABLE Credentials
+ADD CONSTRAINT "FK_Credentials_Users"
+FOREIGN KEY ("userId")
+REFERENCES Users ("userId")
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+
+-- MOVIES
+
+ALTER TABLE Movies
+ADD CONSTRAINT "FK_Movies_Genres"
+FOREIGN KEY ("genreId")
+REFERENCES Genres ("genreId")
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+
+ALTER TABLE Movies
+ADD CONSTRAINT "FK_Movies_Ratings"
+FOREIGN KEY ("ratingId")
+REFERENCES Ratings ("ratingId")
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+
+-- POSTS
+
+ALTER TABLE Posts
+ADD CONSTRAINT "FK_Posts_Users"
+FOREIGN KEY ("userId")
+REFERENCES Users ("userId")
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+
+ALTER TABLE Posts
+ADD CONSTRAINT "FK_Posts_Movies"
+FOREIGN KEY ("movieId")
+REFERENCES Movies ("movieId")
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+
+-- COMMENTS
+
+ALTER TABLE Comments
+ADD CONSTRAINT "FK_Comments_Posts"
+FOREIGN KEY ("postId")
+REFERENCES Posts ("postId")
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+
+ALTER TABLE Comments
+ADD CONSTRAINT "FK_Comments_Users"
+FOREIGN KEY ("userId")
+REFERENCES Users ("userId")
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+
+-- MOVIES_GENRES
+ALTER TABLE Movies_Genres
+ADD CONSTRAINT PK_Movie_Genre PRIMARY KEY ("movieId", "genreId");
+
+ALTER TABLE Movies_Genres
+ADD CONSTRAINT "FK_Movies"
+FOREIGN KEY ("movieId")
+REFERENCES Movies ("movieId")
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+
+ALTER TABLE Movies_Genres
+ADD CONSTRAINT "FK_Genres"
+FOREIGN KEY ("genreId")
+REFERENCES Genres ("genreId")
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+
+-- MOVIES_ACTORS
+ALTER TABLE Movies_Actors
+ADD CONSTRAINT PK_Movie_Actors PRIMARY KEY ("movieId", "actorId");
+
+ALTER TABLE Movies_Actors
+ADD CONSTRAINT "FK_Movies"
+FOREIGN KEY ("movieId")
+REFERENCES Movies ("movieId")
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
+
+ALTER TABLE Movies_Actors
+ADD CONSTRAINT "FK_Actors"
+FOREIGN KEY ("actorId")
+REFERENCES Actors ("actorId")
+ON DELETE NO ACTION
+ON UPDATE NO ACTION;
