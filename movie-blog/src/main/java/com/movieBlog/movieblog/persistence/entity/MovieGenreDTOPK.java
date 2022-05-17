@@ -8,6 +8,8 @@ public class MovieGenreDTOPK implements Serializable {
     private Integer movieId;
     private Integer genreId;
 
+    // GETTERS AND SETTERS
+
     public Integer getMovieId() {
         return movieId;
     }

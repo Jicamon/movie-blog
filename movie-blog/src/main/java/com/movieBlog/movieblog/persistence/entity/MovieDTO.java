@@ -2,6 +2,7 @@ package com.movieBlog.movieblog.persistence.entity;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Movies")
@@ -17,6 +18,23 @@ public class MovieDTO {
     private Integer genreId;
 
     private Integer ratingId;
+
+    // RELATIONS
+
+    @OneToMany(mappedBy="movie")
+    private List<PostDTO> posts;
+
+    @ManyToOne
+    @JoinColumn(name = "ratingId", insertable = false, updatable = false)
+    private RatingDTO rating;
+
+    @OneToMany(mappedBy = "movie")
+    List<MovieGenreDTO> genresInMovie;
+
+    @OneToMany(mappedBy = "movie")
+    List<MovieActorDTO> actorsInMovie;
+
+    // GETTERS AND SETTERS
 
     public Integer getMovieId() {
         return movieId;

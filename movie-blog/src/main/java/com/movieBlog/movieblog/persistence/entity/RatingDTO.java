@@ -1,6 +1,7 @@
 package com.movieBlog.movieblog.persistence.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Ratings")
@@ -11,6 +12,14 @@ public class RatingDTO {
     private Integer ratingId;
     private String abbreviation;
     private String description;
+
+    // RELATIONS
+
+    @OneToMany(mappedBy = "rating")
+    private List<MovieDTO> movies;
+
+
+    // GETTERS AND SETTERS
 
     public Integer getRatingId() {
         return ratingId;

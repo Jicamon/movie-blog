@@ -3,6 +3,7 @@ package com.movieBlog.movieblog.persistence.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Users")
@@ -16,6 +17,15 @@ public class UserDTO {
     private String phone;
     private String mail;
 
+    // RELATIONS
+
+    @OneToMany(mappedBy="user")
+    private List<PostDTO> posts;
+
+    @OneToMany(mappedBy = "user")
+    private List<CommentDTO> comments;
+
+    // GETTERS AND SETTERS
     public Integer getUserId() {
         return userId;
     }

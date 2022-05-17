@@ -2,6 +2,7 @@ package com.movieBlog.movieblog.persistence.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Posts")
@@ -17,6 +18,20 @@ public class PostDTO {
     private Integer likeCount;
     private Integer dislikeCount;
 
+    // RELATIONS
+
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    private UserDTO user;
+
+    @ManyToOne
+    @JoinColumn(name = "movieId", insertable = false, updatable = false)
+    private MovieDTO movie;
+
+    @OneToMany(mappedBy="post")
+    private List<CommentDTO> comments;
+
+    // GETTERS AND SETTERS
     public Integer getPostId() {
         return postId;
     }

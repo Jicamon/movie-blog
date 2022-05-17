@@ -1,21 +1,34 @@
 package com.movieBlog.movieblog.persistence.entity;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Movies_Actors")
 public class MovieActorDTO {
 
     @EmbeddedId
-    private MovieGenreDTOPK id;
+    private MovieActorDTOPK id;
 
-    public MovieGenreDTOPK getId() {
+    // RELATIONS
+
+    @ManyToOne
+    @MapsId("movieId")
+    @JoinColumn(name = "movieId")
+    MovieDTO movie;
+
+    @ManyToOne
+    @MapsId("actorId")
+    @JoinColumn(name = "actorId")
+    GenreDTO actor;
+
+
+    // GETTERS AND SETTERS
+
+    public MovieActorDTOPK getId() {
         return id;
     }
 
-    public void setId(MovieGenreDTOPK id) {
+    public void setId(MovieActorDTOPK id) {
         this.id = id;
     }
 }

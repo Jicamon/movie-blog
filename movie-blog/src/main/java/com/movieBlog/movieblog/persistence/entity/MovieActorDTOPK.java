@@ -2,12 +2,15 @@ package com.movieBlog.movieblog.persistence.entity;
 
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
+import java.io.Serializable;
 
 @Embeddable
-public class MovieActorDTOPK {
+public class MovieActorDTOPK implements Serializable {
 
     private Integer movieId;
     private Integer actorId;
+
+    // GETTERS AND SETTERS
 
     public Integer getMovieId() {
         return movieId;

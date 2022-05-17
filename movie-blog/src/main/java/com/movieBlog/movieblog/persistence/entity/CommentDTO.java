@@ -16,6 +16,18 @@ public class CommentDTO {
     private Integer likeCount;
     private Integer dislikeCount;
 
+    // RELATIONS
+
+    @ManyToOne
+    @JoinColumn(name ="postId", nullable = false)
+    private PostDTO post;
+
+    @ManyToOne
+    @JoinColumn(name ="userId", nullable = false)
+    private UserDTO user;
+
+    // GETTERS AND SETTERS
+
     public Integer getCommentId() {
         return commentId;
     }
